@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navAddProducts"
+            android:icon="@mipmap/ic_add_circle_outline_black_24dp"
+            android:title="Añadir Producto" />
+        <item
+            android:id="@+id/navListProducts"
+            android:icon="@mipmap/ic_list_black_24dp"
+            android:title="Lista de Productos"/>
+    </group>
+
+    <item android:title="Preferencias">
+        <menu>
+            <item
+                android:id="@+id/navSettings"
+                android:icon="@mipmap/ic_settings_black_24dp"
+                android:title="Ajustes" />
+            <item
+                android:id="@+id/navCopyright"
+                android:icon="@mipmap/ic_copyright_black_24dp"
+                android:title="Acerca De" />
+        </menu>
+    </item>
+
+</menu>
