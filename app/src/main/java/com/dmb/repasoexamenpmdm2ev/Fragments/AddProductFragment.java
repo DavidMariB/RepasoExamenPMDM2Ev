@@ -122,10 +122,10 @@ public class AddProductFragment extends Fragment {
             etProdName.setError("El producto debe tener un nombre");
             checkFields = false;
         }else if(TextUtils.isEmpty(getPrice)){
-            etProdDesc.setError("El producto debe tener un precio");
+            etProdPrice.setError("El producto debe tener un precio");
             checkFields = false;
         }else if(TextUtils.isEmpty(getDesc)){
-            etProdPrice.setError("El producto debe tener una descripcion");
+            etProdDesc.setError("El producto debe tener una descripcion");
             checkFields = false;
         }else {
             checkFields = true;
