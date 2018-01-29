@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dmb.repasoexamenpmdm2ev.Adapters.ProductsAdapter;
 import com.dmb.repasoexamenpmdm2ev.Models.Product;
@@ -92,6 +93,8 @@ public class ListProductsFragment extends Fragment {
         }
         recyclerProducts.setLayoutManager(llm);
         recyclerProducts.setAdapter(pa);
+
+        recyclerProducts.invalidate();
 
         return v;
     }
