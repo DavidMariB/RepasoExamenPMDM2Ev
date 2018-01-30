@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,6 @@ import android.widget.Toast;
 
 import com.dmb.repasoexamenpmdm2ev.Models.Product;
 import com.dmb.repasoexamenpmdm2ev.R;
-
-import static com.dmb.repasoexamenpmdm2ev.MainActivity.products;
 
 public class AddProductFragment extends Fragment {
 
@@ -31,8 +30,6 @@ public class AddProductFragment extends Fragment {
     Button btnSaveProd,btnCleanFields;
     String getName,getPrice,getDesc;
     Boolean checkFields;
-
-    Product product;
 
     public AddProductFragment() {
         // Required empty public constructor
@@ -71,10 +68,9 @@ public class AddProductFragment extends Fragment {
         btnSaveProd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(checkProdFields()){
-                    product = new Product(getName,getPrice,getDesc);
-                    products.add(product);
+                    Product product = new Product(getName,getPrice,getDesc);
+                    mListener.addProduct(product);
                     Toast.makeText(getContext(),"Producto Guardado",Toast.LENGTH_SHORT).show();
                     etProdName.setText("");
                     etProdPrice.setText("");
@@ -123,12 +119,12 @@ public class AddProductFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        /*if (context instanceof OnFragmentInteractionListener) {
+        if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
-        }*/
+        }
     }
 
     @Override
@@ -140,5 +136,6 @@ public class AddProductFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+        void addProduct(Product product);
     }
 }

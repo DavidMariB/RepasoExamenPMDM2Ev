@@ -1,24 +1,24 @@
 package com.dmb.repasoexamenpmdm2ev.Fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dmb.repasoexamenpmdm2ev.Adapters.ProductsAdapter;
 import com.dmb.repasoexamenpmdm2ev.Models.Product;
 import com.dmb.repasoexamenpmdm2ev.R;
 
 import java.util.ArrayList;
-
-import static com.dmb.repasoexamenpmdm2ev.MainActivity.products;
 
 public class ListProductsFragment extends Fragment {
 
@@ -31,10 +31,8 @@ public class ListProductsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     TextView tvEmptyList;
-
     RecyclerView recyclerProducts;
-
-    ProductsAdapter pa = new ProductsAdapter(products);
+    ProductsAdapter pa;
 
     public ListProductsFragment() {
         // Required empty public constructor
@@ -67,20 +65,39 @@ public class ListProductsFragment extends Fragment {
         recyclerProducts = v.findViewById(R.id.recyclerProducts);
         tvEmptyList = v.findViewById(R.id.tvEmptyList);
 
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        pa = new ProductsAdapter(mListener.getProducts(), new ProductsAdapter.RecyclerViewOnItemClickListener() {
+            @Override
+            public void onClick(final View v, final int position) {
+                Snackbar.make(v,mListener.getProducts().get(position).getName(),Snackbar.LENGTH_LONG).show();
+                AlertDialog.Builder alertBox = new AlertDialog.Builder(v.getRootView().getContext());
+                alertBox.setMessage("¿Estás seguro de que quieres eliminar este producto?")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Snackbar.make(v,"Producto: "+mListener.getProducts().get(position).getName()+" eliminado",Snackbar.LENGTH_LONG).show();
+                                mListener.getProducts().remove(position);
+                                recyclerProducts.getAdapter().notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                alertBox.show();
+            }
+        });
 
-        if(products.isEmpty()){
+        if(mListener.getProducts().isEmpty()){
             tvEmptyList.setVisibility(View.VISIBLE);
         }
+
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
         recyclerProducts.setLayoutManager(llm);
         recyclerProducts.setAdapter(pa);
-
-        recyclerProducts.invalidate();
 
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -90,12 +107,12 @@ public class ListProductsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        /*if (context instanceof OnFragmentInteractionListener) {
+        if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
-        }*/
+        }
     }
 
     @Override
@@ -107,5 +124,7 @@ public class ListProductsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+        ArrayList<Product> getProducts();
+        Product getProduct(int position);
     }
 }

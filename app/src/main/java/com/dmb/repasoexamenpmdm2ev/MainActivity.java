@@ -1,5 +1,6 @@
 package com.dmb.repasoexamenpmdm2ev;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -22,7 +23,8 @@ import com.dmb.repasoexamenpmdm2ev.Models.Product;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AddProductFragment.OnFragmentInteractionListener,
+        ListProductsFragment.OnFragmentInteractionListener{
 
     FragmentManager fm;
     FragmentTransaction ft;
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity
 
     boolean showingFragment;
 
-    public static ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<Product> products = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,5 +129,25 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public ArrayList<Product> getProducts() {
+        return this.products;
+    }
+
+    @Override
+    public Product getProduct(int position) {
+        return this.products.get(position);
+    }
+
+    @Override
+    public void addProduct(Product product) {
+        this.products.add(product);
     }
 }
